@@ -1,8 +1,44 @@
-...
+{% extends 'base.html' %}
+{% block content %}
+<h1>Mental Health Tracker</h1>
+
 <h5>NPM: </h5>
 <p>{{ "2306174135" }}<p>
-<h5>Name: </h5>
-<p>{{ "Andhika Nayaka Arya Wibowo" }}<p>
-<h5>Class: </h5>
-<p>{{ "PBP KKI" }}<p>
-...
+
+<h5>Name:</h5>
+<p>{{ "Andhika Nayaka Arya Wibowo" }}</p>
+
+<h5>Class:</h5>
+<p>{{ "PBP KKI" }}</p>
+
+{% if not mood_entries %}
+<p>There are no mood data in mental health tracker.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Mood Name</th>
+    <th>Time</th>
+    <th>Feeling</th>
+    <th>Mood Intensity</th>
+  </tr>
+
+  {% comment %} This is how to display mood data
+  {% endcomment %} 
+  {% for mood_entry in mood_entries %}
+  <tr>
+    <td>{{mood_entry.mood}}</td>
+    <td>{{mood_entry.time}}</td>
+    <td>{{mood_entry.feelings}}</td>
+    <td>{{mood_entry.mood_intensity}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_mood_entry' %}">
+  <button>Add New Mood Entry</button>
+</a>
+
+{% endblock content %}
