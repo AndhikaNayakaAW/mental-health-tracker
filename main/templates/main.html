@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<title>PBD Mental Health Tracker</title>
 <h1>Mental Health Tracker</h1>
 
 <h5>NPM: </h5>
@@ -41,4 +42,9 @@
   <button>Add New Mood Entry</button>
 </a>
 
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+
+<h5>Last login session: {{ last_login }}</h5>
 {% endblock content %}
