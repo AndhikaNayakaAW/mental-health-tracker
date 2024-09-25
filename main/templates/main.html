@@ -1,49 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Mental Health Tracker</title>
+{% endblock meta %}
 {% block content %}
-<h1>Mental Health Tracker</h1>
-
-<h5>NPM: </h5>
-<p>{{ "2306174135" }}<p>
-
-<h5>Name:</h5>
-<p>{{ "Andhika Nayaka Arya Wibowo" }}</p>
-
-<h5>Class:</h5>
-<p>{{ "PBP KKI" }}</p>
-
-{% if not mood_entries %}
-<p>There are no mood data in mental health tracker.</p>
-{% else %}
-<table>
-  <tr>
-    <th>Mood Name</th>
-    <th>Time</th>
-    <th>Feeling</th>
-    <th>Mood Intensity</th>
-  </tr>
-
-  {% comment %} This is how to display mood data
-  {% endcomment %} 
-  {% for mood_entry in mood_entries %}
-  <tr>
-    <td>{{mood_entry.mood}}</td>
-    <td>{{mood_entry.time}}</td>
-    <td>{{mood_entry.feelings}}</td>
-    <td>{{mood_entry.mood_intensity}}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
-
-<br />
-
-<a href="{% url 'main:create_mood_entry' %}">
-  <button>Add New Mood Entry</button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>Last login session: {{ last_login }}</h5>
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gray-100 flex flex-col">
+  <div class="p-2 mb-6 relative">
+    <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
+      {% include "card_info.html" with title='NPM' value=npm %}
+      {% include "card_info.html" with title='Name' value=name %}
+      {% include "card_info.html" with title='Class' value=class %}
+    </div>
+    <div class="w-full px-6  absolute top-[44px] left-0 z-20 hidden md:flex">
+      <div class="w-full min-h-4 bg-indigo-700">
+      </div>
+    </div>
+    <div class="h-full w-full py-6  absolute top-0 left-0 z-20 md:hidden flex ">
+      <div class="h-full min-w-4 bg-indigo-700 mx-auto">
+      </div>
+    </div>
+</div>
+    <div class="px-3 mb-4">
+      <div class="flex rounded-md items-center bg-indigo-600 py-2 px-4 w-fit">
+        <h1 class="text-white text-center">Last Login: {{last_login}}</h1>
+      </div>
+    </div>
+    <div class="flex justify-end mb-6">
+        <a href="{% url 'main:create_mood_entry' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+            Add New Mood Entry
+        </a>
+    </div>
+    
+    {% if not mood_entries %}
+    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+        <img src="{% static 'image/very-sad.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+        <p class="text-center text-gray-600 mt-4">There is no mood data in mental health tracker.</p>
+    </div>
+    {% else %}
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+        {% for mood_entry in mood_entries %}
+            {% include 'card_mood.html' with mood_entry=mood_entry %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}
